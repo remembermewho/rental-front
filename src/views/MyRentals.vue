@@ -84,35 +84,96 @@ onMounted(async () => {
   
 <style scoped>
 .my-rentals-wrapper {
+  max-width: 1000px;
+  margin: 24px auto;
   padding: 24px;
+  font-family: Lato, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #424242;
+  margin-bottom: 20px;
+}
+
 .rental-card {
-  border: 1px solid #ccc;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 6px;
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
 }
+
+.rental-card p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #424242;
+}
+
+.rental-card button {
+  margin-top: 12px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.rental-card button:hover {
+  background-color: #4338ca;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 1000;
 }
+
 .modal {
   background: white;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 24px;
+  border-radius: 10px;
   width: 90%;
   max-width: 500px;
   max-height: 80%;
   overflow-y: auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
+
+.modal h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.modal p {
+  font-size: 14px;
+  margin: 6px 0;
+}
+
 .modal-actions {
   margin-top: 16px;
   text-align: right;
 }
+
+.modal-actions button {
+  padding: 8px 14px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-actions button:hover {
+  background-color: #4338ca;
+}
 </style>
+

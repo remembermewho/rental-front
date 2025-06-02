@@ -100,18 +100,55 @@ const updateStatus = async (bookingId, newStatus) => {
 
 <style scoped>
 .requests-wrapper {
+  max-width: 1000px;
+  margin: 24px auto;
   padding: 24px;
+  font-family: Lato, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #424242;
+}
+
 .request-card {
-  border: 1px solid #ccc;
-  padding: 12px;
-  margin-bottom: 12px;
+  border: 1px solid #efefef;
   border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
+
+.request-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #424242;
+}
+
 .actions {
-  margin-top: 10px;
+  margin-top: 12px;
 }
+
 .actions button {
-  margin-right: 8px;
+  padding: 8px 14px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.actions button:hover {
+  background-color: #4338ca;
+}
+
+.actions button + button {
+  margin-left: 8px;
 }
 </style>

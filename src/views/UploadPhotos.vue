@@ -82,27 +82,65 @@
   </script>
   
   <style scoped>
-  .photo-wrapper {
-    padding: 24px;
-    max-width: 800px;
-    margin: auto;
-  }
-  .photo-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .photo-card {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-  }
-  .photo-card img {
-    width: 200px;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 4px;
-  }
-  </style>
+.photo-wrapper {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 24px;
+  font-family: Lato, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+h2, h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #424242;
+}
+
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.photo-card {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  background: #f9f9f9;
+  width: 200px;
+  text-align: center;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+button {
+  margin-top: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4338ca;
+}
+
+input[type="file"] {
+  margin-top: 12px;
+}
+
+hr {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+</style>
   

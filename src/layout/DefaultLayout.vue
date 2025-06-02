@@ -48,26 +48,37 @@ function onLogout() {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
 .navbar {
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 12px 24px;
+  background: linear-gradient(90deg, #e0e7ff, #f0f4ff);
+
+  color: #333;
+  padding: 16px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  margin: 16px;
 }
 
 .nav-left,
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .logo {
-  font-weight: bold;
-  font-size: 20px;
-  color: #333;
+  font-weight: 700;
+  font-size: 24px;
+  color: #4f46e5;
   text-decoration: none;
 }
 
@@ -76,19 +87,30 @@ function onLogout() {
 .logout-btn {
   color: #333;
   text-decoration: none;
-  font-size: 14px;
-  background: none;
-  border: none;
-  cursor: pointer;
+  font-size: 15px;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: background 0.2s, transform 0.2s;
 }
 
 .nav-left a:hover,
 .nav-right a:hover,
 .logout-btn:hover {
-  color: #007bff;
+  background: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+  transform: scale(1.05);
+}
+
+.logout-btn {
+  border: none;
+  cursor: pointer;
 }
 
 .container {
-  padding: 24px;
+  padding: 32px;
 }
 </style>
+
+
+
