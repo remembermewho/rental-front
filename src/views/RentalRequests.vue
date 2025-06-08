@@ -6,7 +6,7 @@
       <div v-for="request in requests" :key="request.bookingId" class="request-card">
         <p><strong>Объект:</strong> {{ request.propertyType }} в {{ request.city }}</p>
         <p><strong>Адрес:</strong> {{ request.street }} {{ request.houseNumber }}, {{ request.district }}</p>
-        <p><strong>Арендатор:</strong> {{ request.tenantName }} ({{ request.tenantPhone }})</p>
+        <p><strong>Арендатор:</strong> {{ request.tenantName }} (Тел: {{ request.tenantPhone }})</p>
         <p><strong>Период:</strong> {{ formatDate(request.startDate) }} — {{ formatDate(request.endDate) }}</p>
         <p><strong>Сумма:</strong> {{ request.totalPrice }} сом</p>
         <p><strong>Статус:</strong> {{ translateStatus(request.status) }}</p>
@@ -52,7 +52,7 @@ onMounted(async () => {
       try {
         const { data: tenant } = await api.get(`/users/${b.tenantId}`)
         tenantName = tenant.firstName || tenant.lastName || '—'
-        tenantPhone = tenant.email || '—'
+        tenantPhone = tenant.phoneNumber || '—'
       } catch {
         // если не удалось получить, оставляем дефолт
       }

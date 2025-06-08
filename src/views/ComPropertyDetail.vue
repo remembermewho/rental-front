@@ -65,37 +65,32 @@ const route = useRoute()
 const property = ref(null)
 const photoUrls = ref([])
 const currentPhotoIndex = ref(0)
-const userRole = ref(null)
-const userId = ref(null)
 const mapContainer = ref(null)
-let mapInstance = null
 const showBookingModal = ref(false)
 const startDate = ref('')
 const endDate = ref('')
+const userRole = ref(null)
+const userId = ref(null)
+
 const today = dayjs().format('YYYY-MM-DD')
 const minStartDate = today
 
 const basePath = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
 const getPhotoUrl = (path) => {
-  const norm = path.replace(/\\\\/g, '/').replace(/\\/g, '/')
+  const norm = path.replace(/\\/g, '/').replace(/\\/g, '/')
   const idx = norm.indexOf('uploads/photos/')
   return idx === -1 ? '' : `${basePath}/uploads/photos/${norm.slice(idx + 15)}`
 }
 
 const details = computed(() => property.value ? ({
   'Площадь': `${property.value.area} м²`,
-  'Комнат': property.value.numberOfRooms,
+  'Назначение': property.value.purpose || '—',
   'Этаж': property.value.floor,
-  'Состояние': property.value.condition || '—',
-  'Серия': property.value.houseSeries || '—',
-  'Тип строения': property.value.buildingType || '—',
-  'Отопление': property.value.heating || '—',
-  'Телефон': property.value.telephone ? 'Да' : 'Нет',
-  'Интернет': property.value.internet ? 'Да' : 'Нет',
-  'Газ': property.value.gas ? 'Да' : 'Нет',
-  'Балкон': property.value.balcony ? 'Да' : 'Нет',
-  'Мебель': property.value.furniture ? 'Да' : 'Нет',
-  'Кондиционер': property.value.airConditioner ? 'Да' : 'Нет'
+  'Всего этажей': property.value.totalFloors || '—',
+  'Отдельный вход': property.value.separateEntrance ? 'Да' : 'Нет',
+  'Парковка': property.value.hasParking ? 'Да' : 'Нет',
+  'Мощность электросети': property.value.electricityPower ? `${property.value.electricityPower} кВт` : '—',
+  'Реклама разрешена': property.value.advertisingAllowed ? 'Да' : 'Нет',
 }) : {})
 
 const isTenant = computed(() => userRole.value === 'tenant')
@@ -108,9 +103,9 @@ const totalPrice = computed(() => {
 onMounted(async () => {
   const token = localStorage.getItem('token')
   if (token) {
-    const p = JSON.parse(atob(token.split('.')[1]))
-    userRole.value = p.role
-    userId.value = p.id
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    userRole.value = payload.role
+    userId.value = payload.id
   }
   const { data } = await api.get(`/properties/${route.params.id}`)
   property.value = data
@@ -118,9 +113,9 @@ onMounted(async () => {
   photoUrls.value = photos.data.map(p => getPhotoUrl(p.photoPath)).filter(Boolean)
 
   if (property.value.latitude && property.value.longitude) {
-    mapInstance = L.map(mapContainer.value).setView([property.value.latitude, property.value.longitude], 15)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance)
-    L.marker([property.value.latitude, property.value.longitude]).addTo(mapInstance)
+    const map = L.map(mapContainer.value).setView([property.value.latitude, property.value.longitude], 15)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
+    L.marker([property.value.latitude, property.value.longitude]).addTo(map)
   }
 })
 
@@ -157,7 +152,6 @@ const confirmBooking = async () => {
   alert('Заявка отправлена!')
 }
 </script>
-
 
 <style scoped>
 .detail-wrapper {

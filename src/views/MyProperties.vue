@@ -10,8 +10,12 @@
           <p class="status" :class="{ active: prop.active, inactive: !prop.active }">
             {{ prop.active ? 'Объявление активно' : 'Объявление не активно' }}
           </p>
+          <p class="status" :class="{ active: prop.booked, inactive: !prop.booked }">
+            {{ prop.booked ? 'Объект в аренде' : 'Объект не в аренде' }}
+          </p>
         </div>
         <div class="right">
+          <button @click.stop="openCompactModal(prop.id)">Подробнее</button>
           <button @click.stop="editProperty(prop.id)">Редактировать</button>
           <button @click.stop="addOrRemovePhoto(prop.id)">Фото</button>
           <button @click.stop="toggleActive(prop)">
@@ -23,6 +27,11 @@
     </div>
 
     <p v-else>У вас пока нет объектов</p>
+    <PropertyDetailsPage
+      v-if="showCompactModal"
+      :property-id="selectedPropertyId"
+      @close="closeCompactModal"
+    />
   </div>
 </template>
 
@@ -31,10 +40,26 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import { useRouter } from 'vue-router'
+import PropertyDetailsPage from '@/views/PropertyDetailsPage.vue'
 
 const properties = ref([])
 const router = useRouter()
-
+const showCompactModal = ref(false)
+const selectedPropertyId = ref(null)
+const openCompactModal = (id) => {
+  if (!id) {
+    console.error('Invalid property ID:', id)
+    return
+  }
+  selectedPropertyId.value = id
+  showCompactModal.value = true
+}
+const closeCompactModal = () => {
+  showCompactModal.value = false
+}
+const showDetails = (id) => {
+  router.push(`/properties/details/${id}`)
+}
 const getUserIdFromToken = () => {
   const token = localStorage.getItem('token')
   if (!token) return null
@@ -46,7 +71,7 @@ const fetchProperties = async () => {
   const userId = getUserIdFromToken()
   if (!userId) return router.push('/login')
   const { data } = await api.get(`/properties/user/${userId}`)
-  properties.value = data
+  properties.value = data.sort((a, b) => b.id - a.id) // сортировка по убыванию id
 }
 
 const editProperty = (id) => router.push(`/properties/edit/${id}`)

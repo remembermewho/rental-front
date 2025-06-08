@@ -3,7 +3,8 @@
     <nav class="navbar">
       <div class="nav-left">
         <router-link class="logo" to="/">🏠 RentNow</router-link>
-        <router-link to="/properties">Недвижимость</router-link>
+        <router-link to="/properties">Жилая недвижимость</router-link>
+        <router-link to="/properties/commercial">Коммерческая недвижимость</router-link>
         <router-link
           v-if="user?.role === 'landlord'"
           to="/properties/create"

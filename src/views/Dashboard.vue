@@ -7,6 +7,7 @@
       <p><strong>Email:</strong> {{ user.email }}</p>
       <p><strong>Роль:</strong> {{ translateRole(user.role) }}</p>
       <p><strong>Баланс:</strong> {{ user.balance }} сом</p>
+      <p><strong>Телефон номер:</strong> {{ user.phoneNumber }}</p>
 
       <div class="actions">
         <button v-if="user.role === 'landlord'" @click="router.push('/my-properties')">

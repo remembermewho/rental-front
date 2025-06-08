@@ -12,6 +12,9 @@ import UploadPhotos from '@/views/UploadPhotos.vue'
 import MyRentals from '@/views/MyRentals.vue'
 import RentalRequests from '@/views/RentalRequests.vue'
 import MyRequests from '@/views/MyRequests.vue'
+import ComPropertyList from '@/views/ComPropertyList.vue'
+import ComPropertyDetail from '@/views/ComPropertyDetail.vue'
+import PropertyDetailsPage from '@/views/PropertyDetailsPage.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -27,6 +30,10 @@ const routes = [
   { path: '/my-rentals', name: 'MyRentals', component: MyRentals, meta: { requiresAuth: true } },
   { path: '/rental-requests', name: 'RentalRequests', component: RentalRequests, meta: { requiresAuth: true } },
   { path: '/my-requests', name: 'MyRequests', component: MyRequests, meta: { requiresAuth: true } },
+  { path: '/properties/commercial', component: ComPropertyList },
+  { path: '/commercial/:id', component: ComPropertyDetail },
+  { path: '/properties/details/:id', name: 'PropertyDetails', component: PropertyDetailsPage },
+
 ]
 
 const router = createRouter({

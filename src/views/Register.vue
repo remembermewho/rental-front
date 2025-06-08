@@ -5,9 +5,10 @@
       <input v-model="form.firstName" placeholder="Имя" required />
       <input v-model="form.lastName" placeholder="Фамилия" required />
       <input v-model="form.email" type="email" placeholder="Email" required />
+      <input v-model="form.phoneNumber" placeholder="Телефон" required />
       <input v-model="form.username" placeholder="Имя пользователя" required />
       <input v-model="form.password" type="password" placeholder="Пароль (мин. 6 символов)" required />
-      
+
       <select v-model="form.role" required>
         <option disabled value="">Выберите роль</option>
         <option value="landlord">Арендодатель</option>
@@ -31,6 +32,7 @@ const form = ref({
   firstName: '',
   lastName: '',
   email: '',
+  phoneNumber: '',
   username: '',
   password: '',
   role: ''

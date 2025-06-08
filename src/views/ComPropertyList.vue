@@ -1,16 +1,30 @@
 <template>
   <div class="list-wrapper">
-    <h2>Список жилой недвижимости</h2>
+    <h2>Список коммерческой недвижимости</h2>
 
     <form class="filter-form" @submit.prevent="loadProperties">
-      <input v-model="filters.region" placeholder="Регион" />
-      <input v-model="filters.city" placeholder="Город" />
-      <input v-model="filters.district" placeholder="Район" />
-      <input v-model.number="filters.numberOfRooms" type="number" placeholder="Количество комнат" />
-      <input v-model.number="filters.minPrice" type="number" placeholder="Цена от" />
-      <input v-model.number="filters.maxPrice" type="number" placeholder="Цена до" />
-      <button type="submit">Фильтр</button>
-      <button type="button" @click="resetFilters">Сбросить</button>
+        <input v-model="filters.region" placeholder="Регион" />
+        <input v-model="filters.city" placeholder="Город" />
+        <input v-model="filters.district" placeholder="Район" />
+        <input v-model.number="filters.minPrice" type="number" placeholder="Цена от" />
+        <input v-model.number="filters.maxPrice" type="number" placeholder="Цена до" />
+        
+        <select v-model="filters.purpose">
+            <option value="">Назначение</option>
+            <option value="Офис">Офис</option>
+            <option value="Магазин">Магазин</option>
+            <option value="Склад">Склад</option>
+            <option value="Производство">Производство</option>
+            <option value="Кафе/Ресторан">Кафе/Ресторан</option>
+            <option value="Бутик">Бутик</option>
+        </select>
+
+        <label><input type="checkbox" v-model="filters.hasParking" /> Парковка</label>
+        <label><input type="checkbox" v-model="filters.advertisingAllowed" /> Реклама разрешена</label>
+        <label><input type="checkbox" v-model="filters.separateEntrance" /> Отдельный вход</label>
+
+        <button type="submit">Фильтр</button>
+        <button type="button" @click="resetFilters">Сбросить</button>
     </form>
 
     <div v-if="properties.length">
@@ -35,7 +49,7 @@
         </div>
 
         <div class="right-info">
-          <p class="title"><strong>{{ prop.propertyType }} недвижимость</strong> — {{ prop.city }} - Район {{ prop.district }}</p>
+          <p class="title"><strong>{{ prop.propertyType }} недвижимость </strong> — {{ prop.city }} - Район {{ prop.district }}</p>
           <p>{{ prop.numberOfRooms }} комн, {{ prop.area }} м² — {{ prop.price }} сом / месяц</p>
           <p class="description">{{ prop.announcementText || 'Описание отсутствует.' }}</p>
         </div>
@@ -66,9 +80,12 @@ const filters = ref({
   region: '',
   city: '',
   district: '',
-  numberOfRooms: null,
   minPrice: null,
-  maxPrice: null
+  maxPrice: null,
+  purpose: '',
+  hasParking: false,
+  advertisingAllowed: false,
+  separateEntrance: false
 })
 const router = useRouter()
 
@@ -76,12 +93,14 @@ const loadProperties = async () => {
   try {
     const withType = {
       ...filters.value,
-      propertyType: 'Жилая'
+      propertyType: 'Коммерческая'
     }
 
     const params = Object.fromEntries(
-      Object.entries(withType).filter(([_, v]) => v !== null && v !== '')
-    )
+  Object.entries(withType).filter(([_, v]) =>
+    v !== null && v !== '' && v !== false
+  )
+)
 
     const response = await api.get('/properties', { params })
     const propertiesData = response.data
@@ -129,7 +148,7 @@ const resetFilters = () => {
 }
 
 const goToDetail = (id) => {
-  router.push(`/properties/${id}`)
+  router.push(`/commercial/${id}`)
 }
 
 onMounted(() => {
@@ -138,6 +157,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Стили такие же как у жилой недвижимости */
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
 * {
@@ -180,6 +200,17 @@ h2 {
   color: white;
   font-weight: 600;
   cursor: pointer;
+}
+
+.filter-form select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .listing {
