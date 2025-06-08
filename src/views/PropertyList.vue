@@ -32,7 +32,7 @@
         </div>
 
         <div class="right-info">
-          <p class="title"><strong>{{ prop.propertyType }}</strong> — {{ prop.city }}</p>
+          <p class="title"><strong>{{ prop.propertyType }}</strong> — {{ prop.city }} - Район {{ prop.district }}</p>
           <p>{{ prop.numberOfRooms }} комн, {{ prop.area }} м² — {{ prop.price }} сом / месяц</p>
           <p class="description">{{ prop.announcementText || 'Описание отсутствует.' }}</p>
         </div>

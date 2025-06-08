@@ -23,8 +23,6 @@
         </button>
       </div>
     </div>
-
-    <button class="logout-btn" @click="logout">Выйти</button>
   </div>
 </template>
 

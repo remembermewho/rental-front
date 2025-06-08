@@ -7,10 +7,17 @@
         <div class="left">
           <p class="title">{{ prop.propertyType }} — {{ prop.city }}</p>
           <p class="details">{{ prop.numberOfRooms }} комн, {{ prop.area }} м² — {{ prop.price }} сом/мес</p>
+          <p class="status" :class="{ active: prop.active, inactive: !prop.active }">
+            {{ prop.active ? 'Объявление активно' : 'Объявление не активно' }}
+          </p>
         </div>
         <div class="right">
           <button @click.stop="editProperty(prop.id)">Редактировать</button>
-          <button @click.stop="addOrRemovePhoto(prop.id)">Добавить фото</button>
+          <button @click.stop="addOrRemovePhoto(prop.id)">Фото</button>
+          <button @click.stop="toggleActive(prop)">
+            {{ prop.active ? 'Деактивировать' : 'Активировать' }}
+          </button>
+          <button @click.stop="deleteProperty(prop.id)">Удалить</button>
         </div>
       </div>
     </div>
@@ -18,6 +25,7 @@
     <p v-else>У вас пока нет объектов</p>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -34,15 +42,31 @@ const getUserIdFromToken = () => {
   return payload.id
 }
 
-onMounted(async () => {
+const fetchProperties = async () => {
   const userId = getUserIdFromToken()
   if (!userId) return router.push('/login')
   const { data } = await api.get(`/properties/user/${userId}`)
   properties.value = data
-})
+}
 
 const editProperty = (id) => router.push(`/properties/edit/${id}`)
 const addOrRemovePhoto = (id) => router.push(`/properties/${id}/photos`)
+
+const toggleActive = async (property) => {
+  const url = `/properties/${property.id}/${property.active ? 'deactivate' : 'activate'}`
+  await api.put(url)
+  await fetchProperties()
+}
+
+
+const deleteProperty = async (id) => {
+  if (confirm('Удалить объект?')) {
+    await api.delete(`/properties/${id}`)
+    await fetchProperties()
+  }
+}
+
+onMounted(fetchProperties)
 </script>
 
 <style scoped>
@@ -66,7 +90,6 @@ const addOrRemovePhoto = (id) => router.push(`/properties/${id}/photos`)
   border-radius: 8px;
   padding: 16px;
   background: #fafafa;
-  cursor: pointer;
   transition: box-shadow 0.2s;
 }
 
@@ -84,18 +107,34 @@ const addOrRemovePhoto = (id) => router.push(`/properties/${id}/photos`)
   font-size: 14px;
 }
 
+.status {
+  font-size: 13px;
+  margin-top: 6px;
+}
+.status.active {
+  color: green;
+}
+.status.inactive {
+  color: red;
+}
+
+.right {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
 button {
-  background: #4f46e5;
-  color: white;
-  border: none;
-  padding: 6px 12px;
+  background: #e5e7eb;
+  color: #111;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 8px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 button:hover {
-  background: #4338ca;
+  background: #d1d5db;
 }
 </style>
